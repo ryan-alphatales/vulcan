@@ -14,6 +14,7 @@ function createStore(): AccountStore & { accounts: AccountRecord[]; tokens: Veri
       const account = accounts.find((item) => item.id === id)!;
       account.status = status; account.emailVerifiedAt = now; account.activatedAt = now; return account;
     },
+    async deleteUnverified(id) { const index = accounts.findIndex((account) => account.id === id && account.status === "unverified"); if (index >= 0) accounts.splice(index, 1); },
     async saveVerification(record) { tokens.push(record); },
     async consumeVerification(tokenHash, now) {
       const record = tokens.find((item) => item.tokenHash === tokenHash && !item.consumedAt && item.expiresAt > now);

@@ -55,6 +55,10 @@ export class PrismaAccountStore implements AccountStore {
     }));
   }
 
+  async deleteUnverified(accountId: string) {
+    await getPrisma().account.deleteMany({ where: { id: accountId, status: AccountStatus.UNVERIFIED } });
+  }
+
   async saveVerification(record: VerificationRecord) {
     await getPrisma().verificationToken.create({ data: record });
   }

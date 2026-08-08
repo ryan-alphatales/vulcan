@@ -26,6 +26,7 @@ export interface AccountStore {
   findById(id: string): Promise<AccountRecord | null>;
   create(input: Omit<AccountRecord, "id">): Promise<AccountRecord>;
   updateStatus(accountId: string, status: AccountStatus, now: Date): Promise<AccountRecord>;
+  deleteUnverified(accountId: string): Promise<void>;
   saveVerification(record: VerificationRecord): Promise<void>;
   consumeVerification(tokenHash: string, now: Date): Promise<VerificationRecord | null>;
 }
@@ -70,6 +71,10 @@ export class AccountService {
       expiresAt: new Date(now.getTime() + 24 * 60 * 60 * 1000),
     });
     await this.emailSender.sendVerification({ email: account.email, token });
+  }
+
+  async discardUnverified(accountId: string): Promise<void> {
+    await this.store.deleteUnverified(accountId);
   }
 
   async resendVerification(email: string): Promise<void> {
