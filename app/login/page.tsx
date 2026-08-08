@@ -1,0 +1,6 @@
+import { LoginForm } from "@/components/login-form";
+import { VulcanBrand } from "@/components/vulcan-brand";
+
+export default function LoginPage() {
+  return <main className="auth-layout"><section className="auth-story"><VulcanBrand /><div className="auth-story-copy"><p className="eyebrow"><i aria-hidden="true" />Live on connected repos</p><h1>Every pull request,<br /><span>scanned before it merges.</span></h1><p>Vulcan watches your repositories and flags security and data leaks the moment a pull request opens — with plain-language explanations, not just a stack trace.</p></div><div className="scan-terminal" aria-label="Live scan status"><p>&gt; 3 files · 214 lines scanned</p><p className="terminal-success">&gt; no leaked secrets found</p><p className="terminal-warning">&gt; 1 finding — medium severity</p><p className="terminal-success">&gt; explanation ready for review</p></div></section><section className="auth-panel"><div className="auth-panel-inner"><p className="eyebrow"><i aria-hidden="true" />Workspace access</p><h1>Sign in to Vulcan</h1><p className="auth-switch">New here? <a href="/register">Create an account</a></p><LoginForm /><p className="auth-help">Trouble connecting a repository instead? <a href="mailto:support@parichay4.online">Get help</a></p></div></section></main>;
+}

@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AccountStatus {
+  UNVERIFIED
+  VERIFIED
+  ACTIVE
+  DEACTIVATED
+}
+
+enum GitProvider {
+  GITHUB
+  GITLAB
+}
+
+enum ConnectionStatus {
+  PENDING
+  ACTIVE
+  FAILED
+}
+
+enum ScanStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  SKIPPED
+}
+
+enum ScanFailureReason {
+  REPOSITORY_ACCESS
+  PROVIDER
+  AI_SERVICE
+  TIMEOUT
+  INTERNAL
+}
+
+enum Severity {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum TriageState {
+  OPEN
+  FIXED
+  FALSE_POSITIVE
+}
+
+model Account {
+  id                String        @id @default(cuid())
+  email             String
+  emailNormalized   String        @unique
+  displayName       String?
+  passwordHash      String
+  status            AccountStatus @default(UNVERIFIED)
+  emailVerifiedAt   DateTime?
+  activatedAt       DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  verificationTokens VerificationToken[]
+  providerAccounts  ProviderAccount[]
+  repositories      Repository[]
+  scanRuns          ScanRun[]
+  auditEvents       AuditEvent[]
+}
+
+model VerificationToken {
+  id          String   @id @default(cuid())
+  accountId   String
+  tokenHash   String   @unique
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime @default(now())
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model ProviderAccount {
+  id                  String      @id @default(cuid())
+  accountId           String
+  provider            GitProvider
+  providerAccountId   String
+  accessTokenEncrypted String
+  scopes              String[]
+  expiresAt           DateTime?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  account             Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  repositories        Repository[]
+  @@unique([accountId, provider, providerAccountId])
+}
+
+model Repository {
+  id                String           @id @default(cuid())
+  accountId         String
+  providerAccountId String
+  provider          GitProvider
+  externalId        String
+  owner             String
+  name              String
+  fullName          String
+  connectionStatus  ConnectionStatus @default(PENDING)
+  connectedAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  account           Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  providerAccount   ProviderAccount  @relation(fields: [providerAccountId], references: [id], onDelete: Cascade)
+  webhook           Webhook?
+  scanRuns          ScanRun[]
+  @@unique([accountId, provider, externalId])
+  @@index([accountId, connectionStatus])
+}
+
+model Webhook {
+  id                String           @id @default(cuid())
+  repositoryId      String           @unique
+  providerWebhookId String?
+  status            ConnectionStatus @default(PENDING)
+  installedAt       DateTime?
+  failureReason     String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  repository        Repository       @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+}
+
+model WebhookDelivery {
+  id          String   @id @default(cuid())
+  provider    GitProvider
+  deliveryId  String
+  repositoryId String?
+  eventType   String
+  receivedAt  DateTime @default(now())
+  processedAt DateTime?
+  @@unique([provider, deliveryId])
+}
+
+model ScanRun {
+  id                    String            @id @default(cuid())
+  accountId             String
+  repositoryId          String
+  providerPullRequestId String
+  pullRequestNumber     Int
+  headSha               String
+  headBranch            String?
+  status                ScanStatus        @default(QUEUED)
+  failureReason         ScanFailureReason?
+  failureNoticePostedAt DateTime?
+  resultNoticePostedAt  DateTime?
+  supersededAt          DateTime?
+  createdAt             DateTime          @default(now())
+  startedAt             DateTime?
+  completedAt           DateTime?
+  account               Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  repository            Repository        @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  findings              Finding[]
+  @@index([repositoryId, providerPullRequestId, status])
+  @@index([accountId, createdAt])
+}
+
+model Finding {
+  id                String      @id @default(cuid())
+  scanRunId         String
+  title             String
+  severity          Severity
+  confidence        Int
+  explanation       String
+  suggestedFix      String
+  filePath          String?
+  startLine         Int?
+  endLine           Int?
+  riskHighlights    String[]
+  triageState       TriageState @default(OPEN)
+  triagedAt         DateTime?
+  createdAt         DateTime    @default(now())
+  scanRun           ScanRun     @relation(fields: [scanRunId], references: [id], onDelete: Cascade)
+  @@index([scanRunId, triageState])
+}
+
+model AuditEvent {
+  id        String   @id @default(cuid())
+  accountId String?
+  category  String
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  @@index([accountId, createdAt])
+}

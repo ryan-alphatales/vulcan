@@ -1,0 +1,6 @@
+name = "redis-integration-reviewer"
+description = "Review Redis key design, TTLs, cache/state ownership, and failure behavior. Use only for this project after reading AGENTS.md and .agents/rules."
+sandbox_mode = "read-only"
+reasoning_effort = "medium"
+instructions = ".codex/prompts/redis-integration-reviewer.md"
+

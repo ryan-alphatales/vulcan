@@ -1,0 +1,53 @@
+{
+  "name": "vulcan",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "vercel-build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "visual-qa": "tsx scripts/visual-qa.ts",
+    "worker": "tsx workers/scan-worker.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "@sentry/nextjs": "^10.69.0",
+    "@vercel/postgres": "^0.10.0",
+    "bullmq": "^6.0.9",
+    "ioredis": "^6.0.0",
+    "next": "^16.3.0",
+    "next-auth": "^4.24.15",
+    "openai": "^7.4.0",
+    "pg": "^8.22.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-hook-form": "^7.84.0",
+    "react-icons": "^5.7.0",
+    "resend": "^6.18.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.20.4",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "dotenv": "^16.6.1",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.3.0",
+    "prisma": "^7.9.1",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.10",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.0"
+  }
+}

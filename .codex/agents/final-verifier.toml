@@ -1,0 +1,6 @@
+name = "final-verifier"
+description = "Audit completion evidence, docs impact, and remaining risk before the final report. Use only for this project after reading AGENTS.md and .agents/rules."
+sandbox_mode = "read-only"
+reasoning_effort = "medium"
+instructions = ".codex/prompts/final-verifier.md"
+

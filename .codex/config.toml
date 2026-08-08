@@ -1,0 +1,7 @@
+developer_instructions = """Read AGENTS.md first. Apply PROJECT_STRUCTURE.md, the nearest folder AGENTS.md, .agents/rules/*.md, and relevant .alphatales planning files. Codex skills belong in .agents/skills; project reviewers are defined in .codex/agents."""
+[features]
+multi_agent = true
+[agents]
+max_threads = 4
+max_depth = 2
+

@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "project_id": "6a72f146b80fb1e30bc643b5",
+  "selected_tools": [],
+  "generated_at": "2026-08-07T07:50:18.059200",
+  "selection": {
+    "prd": false,
+    "tech_stack": true,
+    "features": [
+      "6a7584f4b80fb1e30bc64403",
+      "6a7584f5b80fb1e30bc64404",
+      "6a7584f9b80fb1e30bc64405",
+      "6a7584fbb80fb1e30bc64406",
+      "6a7584fcb80fb1e30bc64407",
+      "6a758501b80fb1e30bc64408",
+      "6a758501b80fb1e30bc64409",
+      "6a758502b80fb1e30bc6440a",
+      "6a75850cb80fb1e30bc6440b",
+      "6a75850db80fb1e30bc6440c",
+      "6a75850db80fb1e30bc6440d",
+      "6a75850eb80fb1e30bc6440e",
+      "6a75850fb80fb1e30bc6440f",
+      "6a758510b80fb1e30bc64410",
+      "6a758510b80fb1e30bc64411",
+      "6a758510b80fb1e30bc64412",
+      "6a758513b80fb1e30bc64413",
+      "6a758529b80fb1e30bc64414",
+      "6a758562b80fb1e30bc64415"
+    ],
+    "app_workflow": true,
+    "app_workflow_groups": [
+      "Access & Setup",
+      "Core Journey",
+      "Review & Trust",
+      "Output & Handoff",
+      "Ongoing Management",
+      "Recovery Paths",
+      "Admin & Operations"
+    ],
+    "ai_rules": false
+  },
+  "paths": {
+    "prd": {
+      "path": "prd-document.md",
+      "type": "prd"
+    },
+    "features": {
+      "path": "features/",
+      "type": "directory"
+    },
+    "manifest": {
+      "path": "dev-tools.json",
+      "type": "manifest"
+    }
+  },
+  "counts": {
+    "total_files": 0,
+    "features": 0
+  }
+}
