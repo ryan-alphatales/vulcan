@@ -7,6 +7,7 @@ const environmentSchema = z.object({
   NEXTAUTH_SECRET: z.string().min(32),
   NEXTAUTH_URL: z.string().url(),
   RESEND_API_KEY: z.string().min(1),
+  EMAIL_FROM: z.string().min(3).optional(),
   APP_URL: optionalUrl,
 });
 

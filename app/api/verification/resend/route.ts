@@ -11,8 +11,12 @@ export async function POST(request: Request) {
   try {
     await accountService.resendVerification(parsed.data.email);
   } catch (error) {
-    // Preserve a non-enumerating response while retaining safe operational evidence.
-    console.error("Vulcan verification resend failed", { name: error instanceof Error ? error.name : "UnknownError" });
+    // Keep the response enumeration-safe, but make the provider rejection
+    // diagnosable from production logs.
+    console.error("Vulcan verification resend failed", {
+      name: error instanceof Error ? error.name : "UnknownError",
+      message: error instanceof Error ? error.message : undefined,
+    });
   }
   return NextResponse.json({ message: "If an unverified account exists for this email, a new verification link is on its way." });
 }

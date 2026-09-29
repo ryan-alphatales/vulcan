@@ -29,7 +29,10 @@ currently marked **Coming soon** in the product UI.
    npx prisma migrate deploy
    ```
 
-4. Start the web app and worker in separate terminals:
+4. Verify the sender address configured by `EMAIL_FROM` in Resend before
+   registering accounts. The default sender is `onboarding@parichay4.online`.
+
+5. Start the web app and worker in separate terminals:
 
    ```bash
    npm run dev
