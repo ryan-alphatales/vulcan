@@ -26,3 +26,4 @@ artifacts/
 *.tsbuildinfo
 
 .vercel/
+.env*
