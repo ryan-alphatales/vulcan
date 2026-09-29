@@ -23,7 +23,9 @@ currently marked **Coming soon** in the product UI.
 1. Install dependencies with `npm install`.
 2. Copy `.env.example` to `.env`. Generate a `TOKEN_ENCRYPTION_KEY` with
    `openssl rand -base64 32`; do not reuse production secrets locally.
-3. Start PostgreSQL and Redis, then apply the durable schema:
+3. Start PostgreSQL and Redis, then apply the durable schema. Set
+   `DATABASE_SSL=true` when your database provider requires TLS (such as
+   Railway's public PostgreSQL proxy):
 
    ```bash
    npx prisma migrate deploy
